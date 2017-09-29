@@ -1,0 +1,65 @@
+html,body,div,span,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;color:#333;}
+ol,ul,li{list-style:none;color:#333;font-weight:none;}
+html,body{font-family: PingFangSC-Regular, sans-serif;color:#333;width: 100%;}
+h1,h2,h3,h4,h5,h6{font-weight: normal;color:#333;}
+input[type=button], input[type=submit], input[type=file], button,input[type=text]{ cursor: pointer; -webkit-appearance: none;outline:none; border-radius:0;color:#333;box-shadow:none;} 
+a{text-decoration: none;color:#333;}
+a:active{border:none;background: none;}
+h1{
+	text-align: center;
+	font-size: 5.5vmin;
+	font-weight: bolder;
+	margin: 1vmin 0 5vmin 0;
+	color:#000;
+}
+h2{
+	font-size: 4.5vmin;
+	color: black;
+	font-weight: bolder;
+	margin-bottom: 2vmin;
+}
+h3{
+	font-weight: bolder;
+	font-size: 3.5vmin;
+	color:#000;
+	margin: 2vmin 0;
+}
+p{
+	margin:2vmin 0 2vmin 5%;
+	font-size: 3.5vmin;
+}
+p span{
+	font-weight: bolder;
+}
+a{
+	color: blue;
+	word-break:break-all;
+}
+ul{
+	font-size: 3.5vmin;
+	margin-left: 5%;
+}
+ul li{
+	margin: 1vmin 0;
+}
+.spot li{
+	list-style: disc;
+	margin-left: 4%;
+}
+.num li{
+	list-style: decimal;
+	margin-left: 4%;
+}
+.letter li{
+	list-style: lower-alpha;
+	margin-left: 4%;
+}
+.circle li{
+	list-style: circle;
+}
+.two li{
+	margin-left: 9%;
+}
+.three li{
+	margin-left: 0%;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href="js/layer/skin/layer.css" />
+<!-- <script type="text/javascript" src="js/jquery-2.1.0.min.js" ></script>
+<script type="text/javascript" src="js/layer/layer.js" ></script> -->
+
+<script type="text/javascript" src="js/jquery-3.1.1.min.js" ></script>
+<script type="text/javascript" src="js/layer.js" ></script>
+
+</head>
+<body>
+
+	<script language="JavaScript"> 
+	var b = 0; 
+	var c = true; 
+	function fade(){ 
+	if(document.all); 
+	if(c == true) { 
+	b+=50; 
+	} 
+	if(b == 200) { 
+	c = false; 
+	} 
+	u.width= 100; 
+	u.height=b; //运行后图片的大小为100*200 
+	setTimeout("fade()",0.5); //根据实际情况选择延时 
+	} 
+	</script>
+	<!-- <img src="http://img.alixixi.com/mylogo.gif" name="u" width=0 height=0 border=0 onload="return imgzoom(this,600);" onclick="javascript:window.open(this.src);" style="cursor:pointer;"/></a>
+	 --><img src="/DogManage/abc.jpg" name="u" width=0 height=0 border=0 onload="return imgzoom(this,600);" onclick="javascript:window.open(this.src);" style="cursor:pointer;"/></a>
+	<a href="#" onClick="fade()">photo</a>
+
+
+
+
+</script>
+</body>
+</html> 

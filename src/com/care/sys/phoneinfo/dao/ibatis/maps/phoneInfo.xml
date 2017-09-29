@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="phoneInfo">
+
+	<select id="getPhoneInfo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT * FROM phoneinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getParamtioInfo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT id FROM sales_promotion 
+		<dynamic prepend="where">
+		BINARY
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getDeviceInfoIsPriority" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT 
+  is_priority 
+FROM
+  wshare_info 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="getPhoneInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT  p.serie_no,p.status,p.input_time,m.type,pro.project_name FROM phoneinfo p LEFT JOIN phone_manage m ON p.phone_manage_id=m.id LEFT JOIN projectinfo pro ON p.belong_project=pro.id 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	<select id="getWshareInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT 
+		a.email,
+		s.id,
+  s.user_id,
+  s.to_user_id,
+  s.device_id,
+  s.is_priority,
+  s.share_date,
+  s.belong_project,
+  s.status ,
+  a.`nickname` AS nickname,
+  d.`device_imei` AS device_imei
+FROM
+  wshare_info s LEFT JOIN wappusers a ON s.`user_id`=a.`user_id` LEFT JOIN wdevice_active_info d ON s.`device_id`=d.`device_id`
+  <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="getWdeviceActiveInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+	SELECT  device_id AS id,
+	device_phone,
+	device_id,
+  device_imei AS serie_no,
+  device_update_time AS input_time,
+  device_disable,
+  belong_project AS project_name,
+  bind_count ,
+  device_name,
+  brandname,
+  fall_on,
+  device_type,
+  conn_type,
+  is_sos,
+  sel_mode,
+  gps_on,
+  time_zone
+  ,
+  listen_type,
+  deadline,
+  callback_on,
+  temperature_on,
+  heatout_on,
+  led_on,
+  flight_mode,
+  urgent_mode,
+  battery,
+  is_lowbat,
+  data_mute,
+  data_volume,
+  data_power,
+  bind_count,
+  wifir_flag,
+  wifir_interval,
+  longitude,
+  latitude,
+  beattim,
+  iccid,test_status
+FROM
+  wdevice_active_info p 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	
+		<select id="getDeviceIccIdByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+SELECT 
+  
+  p.device_imei,
+  p.iccid,
+  s.`card_status`,
+  s.belong_company
+ FROM
+  wdevice_active_info p 
+  INNER JOIN sim_info s 
+    ON s.`iccid` = p.`iccid` 
+<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	
+	<select id="getWdeviceActiveInfoList" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+	SELECT 
+  device_imei AS serie_no,
+  device_update_time AS input_time,
+  device_disable,
+  belong_project AS project_name,
+  bind_count ,
+  device_name,
+  brandname,
+  fall_on,
+  device_type,
+  conn_type,
+  is_sos,
+  sel_mode,
+  gps_on,
+  time_zone,
+  test_status
+FROM
+  wdevice_active_info p 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPhoneInfoCountByVo" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT COUNT(p.id) FROM phoneinfo p LEFT JOIN phone_manage m on p.phone_manage_id=m.id LEFT JOIN projectinfo pro ON p.belong_project=pro.id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getWshareInfoCountByVo" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT 
+count(s.id)
+FROM
+  wshare_info s LEFT JOIN wappusers a ON s.`user_id`=a.`user_id` LEFT JOIN wdevice_active_info d ON s.`device_id`=d.`device_id` 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getWdeviceActiveInfoCountByVo" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT COUNT(device_id)	 FROM wdevice_active_info  p
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPhoneInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT COUNT(*) FROM phoneinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insertPhoneInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		INSERT INTO phoneinfo(serie_no,input_time,belong_project,phone_manage_id,iccid) VALUES (#serieNo#,#inputTime#,#belongProject#,#phoneManageId#,#iccid#)
+	</insert>
+	
+	<insert id="insertWdeviceActiveInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		INSERT INTO wdevice_active_info(device_imei,belong_project,device_update_time,iccid,belong_company,sn) VALUES (#serieNo#,#belongProject#,#uploadTime#,#iccid#,#companyId#,#sn#)
+	</insert>
+	
+		<insert id="insertParamotioInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		INSERT INTO sales_promotion
+		       (promotion_code,card_status,type,discount_rate,use_count,create_date)
+		 VALUES (#iccid#,#cardStatus#,#type#,#centerNum#,#companyId#,#inputTime#)
+	</insert>
+	
+	
+	
+	<update id="updatePhoneInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		UPDATE phoneinfo
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="productModel">
+				product_model=#productModel#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="firmwareEdition">
+				firmware_edition=#firmwareEdition#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phone">
+				phone=#phone#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="shortNumber">
+				short_number=#shortNumber#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="alarmBellType">
+				alarm_bell_type=#alarmBellType#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="uploadTime">
+				upload_time=#uploadTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="status">
+				status=#status#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="relativeCallStatus">
+				relative_call_status=#relativeCallStatus#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="testStatus">
+				test_status=#testStatus#
+			</isNotEmpty>												
+		</dynamic>
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="serieNo">
+				serie_no=#serieNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>		
+	</update>
+	
+		<update id="updateDeviceStatus" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		UPDATE sim_info
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="cardStatus">
+				card_status=#cardStatus#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>		
+	</update>
+	
+	
+		<update id="updateIsPriority" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		UPDATE wpets set device_id = -1
+		<!-- <dynamic prepend="set">
+			<isNotEmpty prepend="," property="cardStatus">
+				card_status=#cardStatus#
+			</isNotEmpty>
+		</dynamic> -->
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>		
+	</update>
+	
+	<update id="updatePhoneStatusInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		UPDATE wdevice_active_info set
+		<!-- <dynamic prepend="set">
+			<isNotEmpty prepend="," property="cardStatus"> -->
+				test_status=#testStatus#
+		<!-- 	</isNotEmpty>
+		</dynamic> -->
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>		
+	</update>
+	
+	<insert id="insertPhoneManage" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		INSERT INTO phone_manage
+		(id,input_time,company_id,project_id,count_num,mini_num,max_num,type) 
+		VALUES 
+		(#id#,#inputTime#,#companyId#,#belongProject#,#countNum#,#miniNum#,#maxNum#,#status#)
+	</insert>
+	
+	<select id="getPhoneManageListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT m.*,p.project_name,c.company_name FROM phone_manage m LEFT JOIN projectinfo p ON m.project_id=p.id LEFT JOIN companyinfo c ON m.company_id=c.id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="getPhoneManageCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT COUNT(m.id) FROM phone_manage m LEFT JOIN projectinfo p ON m.project_id=p.id LEFT JOIN companyinfo c ON m.company_id=c.id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPhoneManageMaxId" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT MAX(id) FROM phone_manage		
+	</select>
+	
+	
+		<delete id="deletePhoneInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		DELETE FROM wdevice_active_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	
+		<delete id="deleteBindDeviceInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		DELETE FROM wshare_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+
+<select id="getDeviceWifiInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		SELECT 
+  w.pet_id,
+  w.wifi_radius,
+  w.host_ssid,
+  w.up_time,
+  p.nickname,
+  a.device_imei
+FROM
+  wpetwifirange w 
+  LEFT JOIN wpets p 
+    ON w.pet_id = p.pet_id 
+  LEFT JOIN wdevice_active_info a 
+    ON p.device_id = a.device_id 
+    <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+		<select id="getgetDeviceWifiInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+		SELECT COUNT(w.pet_id)  FROM
+  wpetwifirange w 
+  LEFT JOIN wpets p 
+    ON w.pet_id = p.pet_id 
+  LEFT JOIN wdevice_active_info a 
+    ON p.device_id = a.device_id <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+
+<select id="getWdevicePhotoInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+SELECT 
+l.id,
+l.device_id,
+l.log_file,
+l.up_time,
+a.device_imei,
+a.device_name
+FROM  wdevlogfile l LEFT JOIN wdevice_active_info a ON l.device_id=a.device_id
+    <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty> 
+		</dynamic>   
+			 limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	
+		<select id="getgetDevicePhotoInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+	SELECT 
+count(*)
+FROM  wdevlogfile l LEFT JOIN wdevice_active_info a ON l.device_id=a.device_id
+     <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+		<select id="getDeviceIccIdCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo" >
+SELECT 
+ count(s.iccid)
+ FROM
+  wdevice_active_info p 
+  LEFT JOIN sim_info s 
+    ON s.`iccid` = p.`iccid` 
+     <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="saleInfo">
+	<select id="getSaleInfo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT * FROM saleinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getCancelSubInfo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT id,stop_time FROM cancel_sub_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+		<select id="getSimInfo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT id FROM sim_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+		<select id="getHavingCountOne" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT iccid,COUNT(*) AS COUNT FROM sim_info GROUP BY iccid HAVING COUNT>1
+		<!-- <dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic> -->
+	</select>
+	
+	<select id="getSimInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT 
+  s.id,
+  s.iccid,
+  s.friendly_name,
+  s.sid,
+  s.rate_plan,
+  s.card_status,
+  s.create_time,
+  s.update_time,
+  s.imsi ,
+  s.belong_company
+FROM
+  sim_info s
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+		<select id="selectPromitionInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+SELECT * FROM sales_promotion c
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	
+		<select id="getSimInfoList" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT 
+<!--   id,
+  iccid,
+  imsi,
+  card_status,
+  create_time,
+   -->
+   *
+FROM
+  sim_info 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getSimInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(s.id) FROM sim_info s
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insertSaleInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO saleinfo
+		(user_name,imei,imsi,phone,phone_model,sys_version,province,belong_project,date_time,ip,app_version,device_type) 
+		VALUES 
+		(#userName#,#imei#,#imsi#,#phone#,#phoneModel#,#sysVersion#,#province#,#belongProject#,#dateTime#,#ip#,#appVersion#,#deviceType#)
+	</insert>
+	
+		<insert id="insertPromitionInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO sales_promotion
+		(promotion_code,card_status,type,card_type,discount_rate,use_count,create_date,add_user,remark) 
+		VALUES 
+		(#iccid#,#belongProject#,#appVersion#,#cardStatus#,#deviceType#,#ip#,#dateTime#,#imei#,#imsi#)
+	</insert>
+	
+	
+	<insert id="insertCancelSubInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO cancel_sub_info
+		(imei,date_time,card_status,message,customer_id,subscription_id,stop_time,iccid,belong_company,remark) 
+		VALUES 
+		(#imei#,#imsi#,#cardStatus#,#phone#,#phoneModel#,#sysVersion#,#province#,#iccid#,#belongProject#,#ip#)
+	</insert>
+	
+	<insert id="insertSimInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO sim_info
+		(iccid,belong_company,create_time,imsi,card_status,update_time) 
+		VALUES 
+		(#imei#,#belongProject#,#dateTime#,#imsi#,#cardStatus#,#updateTime#)
+	</insert>
+	
+		<insert id="insertSimBeiFenInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO sim_benfen_info
+		(iccid,belong_company,create_time,imsi,card_status) 
+		VALUES 
+		(#imei#,#belongProject#,#dateTime#,#imsi#,#cardStatus#)
+	</insert>
+	
+	
+	
+	<insert id="insertCancelSubLogInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		INSERT INTO cancel_sub_loginfo
+		(imei,date_time,stop_time,message) 
+		VALUES 
+		(#imei#,#dateTime#,#addTime#,#appVersion#)
+	</insert>
+	
+	<update id="updateSaleInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		UPDATE saleinfo 
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="imei">
+		      imei=#imei#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="imsi">
+		      imsi=#imsi#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phone">
+		      phone=#phone#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phoneModel">
+		      phone_model=#phoneModel#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sysVersion">
+		      sys_version=#sysVersion#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="province">
+		      province=#province#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="belongProject">
+		      belong_project=#belongProject#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ip">
+		      ip=#ip#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="appVersion">
+		      app_version=#appVersion#
+			</isNotEmpty>
+		</dynamic>  
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<update id="updatePromotionInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		UPDATE sales_promotion 
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="appVersion">
+		      card_status=#appVersion#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="belongProject">
+		      type=#belongProject#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="cardStatus">
+		      card_type=#cardStatus#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deviceType">
+		      discount_rate=#deviceType#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="iccid">
+		      use_count=#iccid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="imei">
+		      remark=#imei#
+			</isNotEmpty>
+		</dynamic>  
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	
+		<update id="updateCancelSubInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		UPDATE cancel_sub_info
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="userName">
+		      stop_time=#userName#
+			</isNotEmpty>
+		</dynamic>  
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	
+	<update id="updateSimInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		UPDATE sim_info 
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="imsi">
+		      imsi=#imsi#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="dateTime">
+		    update_time=#dateTime#
+			</isNotEmpty>
+		</dynamic>  
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<delete id="deleteSaleInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		DELETE FROM saleinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$ 
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<delete id="deleteSimInfo" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		DELETE FROM sim_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$ 
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<select id="getSaleInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT 
+  s.* ,p.`project_name`
+FROM
+  saleinfo  s LEFT JOIN projectinfo p ON s.`belong_project`=p.`id`
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="getSaleInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(*) FROM saleinfo s
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getSaleInfoListGroupByProvince" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT COUNT(id) id,province FROM saleinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		GROUP BY province
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="getSaleInfoCountGroupByProvince" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(DISTINCT(province)) FROM saleinfo
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getAddDayGroupByTime" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT * FROM v_device_login d LEFT JOIN v_appuser USING(belong_project,add_time) LEFT JOIN v_device_active USING(belong_project,add_time) LEFT JOIN v_userlogin USING(belong_project,add_time) LEFT JOIN v_device_active_history USING(belong_project,add_time) LEFT JOIN projectinfo p ON d.belong_project=p.id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="getCountAddDayGroupByTime" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+		SELECT COUNT(*) FROM v_device_login
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="addTime">
+				$addTime$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="selectCancelSubInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+SELECT 
+  c.id,
+  c.imei,
+  c.date_time,
+  c.card_status,
+  c.message,
+  c.customer_id,
+  c.subscription_id,
+  c.stop_time ,
+  c.iccid
+FROM
+  cancel_sub_info c 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	
+	<select id="selectCancelSubLogInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+SELECT 
+  c.id,
+  c.imei,
+  c.date_time,
+ c.message,
+  c.stop_time 
+FROM
+  cancel_sub_loginfo c 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="selectCancelSubInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(c.id) FROM  cancel_sub_loginfo c 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="selectCancelSubLogInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(c.id) FROM  cancel_sub_info c 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	
+	<select id="selectPayforInfoListByVo" resultClass="com.godoing.rose.lang.DataMap" parameterClass="com.care.sys.saleinfo.domain.SaleInfo">
+SELECT 
+p.id,
+  p.imei,
+  p.create_time,
+  p.account,
+  p.pay_status,
+  p.message,
+  p.currency,
+  p.description,
+  p.source,
+  p.customer_id,
+  p.subscription_id,
+  p.`plan_count`,
+  p.`iccid`,
+  p.`sub_status`,
+  p.`card_name`,
+  p.`zip_code`,
+  p.`receipt_number` ,
+  p.`promotion_code` ,
+  s.`discount_rate`
+  
+FROM
+  payfor_info  p
+  LEFT JOIN sales_promotion s ON p.`promotion_code`=s.`promotion_code`
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="order by">
+			<isNotEmpty prepend="order by" property="orderBy">
+				$orderBy$
+			</isNotEmpty>
+		</dynamic>
+			limit
+			<isNotEmpty prepend=" " property="from">
+				$from$
+			</isNotEmpty>
+				,
+			<isNotEmpty prepend=" " property="pageSize">
+				$pageSize$
+			</isNotEmpty>
+	</select>
+	
+	<select id="selectPayforInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(p.id) FROM  payfor_info  p 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="selectPromitionInfoCount" resultClass="java.lang.Integer" parameterClass="com.care.sys.saleinfo.domain.SaleInfo" >
+		SELECT COUNT(id) FROM  sales_promotion   c
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+</sqlMap>
