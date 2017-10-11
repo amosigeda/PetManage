@@ -64,6 +64,11 @@ function update(id)
 	frmGo.action="doPhoneInfo.do?method=initUpdate&id="+id;
 	frmGo.submit();
 }
+function updateTime(id)
+{
+	frmGo.action="doPhoneInfo.do?method=initUpdateTime&id="+id;
+	frmGo.submit();
+}
 </script>
 	<body>
 		<span class="title_1"></span>
@@ -344,7 +349,8 @@ function update(id)
 						<td>
 						<logic:equal name="element" property="test_status" value="0">正式</logic:equal>
 						<logic:equal name="element" property="test_status" value="1">test</logic:equal>
-						<td><a href=# onclick="update('<bean:write name="element" property="device_id" />')" style="color:#0000FF" > 【配置】</a>						
+						<td><a href=# onclick="update('<bean:write name="element" property="device_id" />')" style="color:#0000FF" > 【配置】</a>		
+						<a href=# onclick="updateTime('<bean:write name="element" property="device_id" />')" style="color:#0000FF" > 【恢复出厂】</a>				
 						</td>
 						</td>
 						

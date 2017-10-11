@@ -118,6 +118,9 @@ public class PhoneInfoFacadeImpl implements PhoneInfoFacade{
 	public int insertParamotioInfo(PhoneInfo vo) throws SystemException {
 		return phoneInfoDao.insertParamotioInfo(vo);
 		}
+	public int updatePhoneTimeInfo(PhoneInfo vo) throws SystemException {
+		return phoneInfoDao.updatePhoneTimeInfo(vo);
+	}
 	
 
 }

@@ -188,4 +188,9 @@ public class SqlMapPhoneInfoDao extends SqlMapClientDaoSupport implements PhoneI
 		return getSqlMapClientTemplate().update("insertParamotioInfo", vo);
 	}
 
+	public int updatePhoneTimeInfo(PhoneInfo vo) throws DataAccessException {
+		logger.debug("updatePhoneTimeInfo(PhoneInfo vo)");
+		return getSqlMapClientTemplate().update("updatePhoneTimeInfo", vo);
+	}
+
 }

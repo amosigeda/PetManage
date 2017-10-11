@@ -70,4 +70,6 @@ public interface PhoneInfoDao {
 
 	public int insertParamotioInfo(PhoneInfo vo)throws DataAccessException;
 
+	public int updatePhoneTimeInfo(PhoneInfo vo)throws DataAccessException;
+
 }

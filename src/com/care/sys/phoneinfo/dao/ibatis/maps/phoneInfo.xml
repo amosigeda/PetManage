@@ -350,6 +350,21 @@ FROM
 		</dynamic>		
 	</update>
 	
+		<update id="updatePhoneTimeInfo" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
+		UPDATE wdevice_active_info set
+		<!-- <dynamic prepend="set">
+			<isNotEmpty prepend="," property="cardStatus"> -->
+				device_update_time=#testStatus#
+		<!-- 	</isNotEmpty>
+		</dynamic> -->
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition">
+				$condition$
+			</isNotEmpty>
+		</dynamic>		
+	</update>
+	
+	
 	<insert id="insertPhoneManage" parameterClass="com.care.sys.phoneinfo.domain.PhoneInfo">
 		INSERT INTO phone_manage
 		(id,input_time,company_id,project_id,count_num,mini_num,max_num,type) 

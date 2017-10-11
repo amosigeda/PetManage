@@ -61,4 +61,6 @@ public interface PhoneInfoFacade {
 
 	public int insertParamotioInfo (PhoneInfo vo) throws SystemException;
 
+	public int updatePhoneTimeInfo(PhoneInfo vo)throws SystemException;
+
 }

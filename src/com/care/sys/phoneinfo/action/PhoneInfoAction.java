@@ -2525,5 +2525,46 @@ public class PhoneInfoAction extends BaseAction {
 		}
 		return mapping.findForward("result");
 	}
+	
+	public ActionForward initUpdateTime(ActionMapping mapping,
+			ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String id = request.getParameter("id");
+		System.out.println("id="+id);
+		PhoneInfo vo = new PhoneInfo();
+		Result result = new Result();
+		try {
+			
+			/*PhoneInfoForm form = (PhoneInfoForm) actionForm;			
+			System.out.println(form.getSerieNo());*/
+			vo.setCondition("device_id='" + id + "'");
+            vo.setTestStatus("2016-11-11 00:00:00");
+            
+			int a=ServiceBean.getInstance().getPhoneInfoFacade().updatePhoneTimeInfo(vo);
+	
+	
+			result.setBackPage(HttpTools.httpServletPath(request,
+					"queryPhoneInfo"));
+			result.setResultCode("updates");
+			result.setResultType("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.debug(request.getQueryString() + "  " + e);
+			result.setBackPage(HttpTools.httpServletPath(request,
+					"queryPhoneInfo"));
+			if (e instanceof SystemException) { /* 锟斤拷锟斤拷知锟届常锟斤拷锟叫斤拷锟斤拷 */
+				result.setResultCode(((SystemException) e).getErrCode());
+				result.setResultType(((SystemException) e).getErrType());
+			} else { /* 锟斤拷未知锟届常锟斤拷锟叫斤拷锟斤拷锟斤拷锟斤拷全锟斤拷锟斤拷锟斤拷锟轿粗拷斐?*/
+				result.setResultCode("noKnownException");
+				result.setResultType("sysRunException");
+			}
+		} finally {
+			request.setAttribute("result", result);
+		}
+		return mapping.findForward("result");
+	
+	}
 
 }
