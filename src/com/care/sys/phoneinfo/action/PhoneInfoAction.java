@@ -1939,6 +1939,8 @@ public class PhoneInfoAction extends BaseAction {
 				sao.setImsi(imsi);
 				sao.setDateTime(new Date());
 				sao.setBelongProject("1");
+				sao.setCardStatus("0");
+				sao.setUpdateTime(new Date());
 				sf.insertSimInfo(sao);
 			}
 			result.setBackPage(HttpTools.httpServletPath(request,
